@@ -1,0 +1,1292 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<link rel="stylesheet" href="style.css" />
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GagneCash TG — Abonne-toi et gagne</title>
+  <meta name="description" content="Invite des amis à s’abonner au canal Telegram et gagne des récompenses en argent réel." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg:#071a1f;
+      --bg-soft:#0d2730;
+      --panel:#0f313b;
+      --panel-2:#123c49;
+      --line:rgba(180,255,225,.14);
+      --text:#ecfffb;
+      --muted:#9fd0c8;
+      --green:#19d27c;
+      --green-2:#0fb86b;
+      --blue:#1f8cff;
+      --blue-2:#45b8ff;
+      --warning:#ffd166;
+      --danger:#ff7a7a;
+      --shadow:0 20px 50px rgba(0,0,0,.28);
+      --radius:24px;
+      --radius-sm:16px;
+      --max:1180px;
+    }
+
+    *{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{
+      margin:0;
+      font-family:"Manrope", sans-serif;
+      background:
+        radial-gradient(circle at 10% 10%, rgba(31,140,255,.16), transparent 28%),
+        radial-gradient(circle at 88% 18%, rgba(25,210,124,.14), transparent 26%),
+        linear-gradient(180deg, #071a1f 0%, #0a2027 35%, #08171c 100%);
+      color:var(--text);
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      pointer-events:none;
+      background:
+        linear-gradient(rgba(255,255,255,.02) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.02) 1px, transparent 1px);
+      background-size:28px 28px;
+      mask-image:linear-gradient(to bottom, rgba(0,0,0,.35), transparent 80%);
+    }
+
+    a{color:inherit;text-decoration:none}
+    button{font:inherit}
+    .container{
+      width:min(calc(100% - 28px), var(--max));
+      margin-inline:auto;
+    }
+
+    .topbar{
+      position:sticky;
+      top:0;
+      z-index:40;
+      backdrop-filter:blur(16px);
+      background:linear-gradient(180deg, rgba(6,18,23,.86), rgba(6,18,23,.58));
+      border-bottom:1px solid var(--line);
+    }
+
+    .topbar-inner{
+      display:grid;
+      grid-template-columns:auto 1fr auto;
+      gap:12px;
+      align-items:center;
+      min-height:76px;
+      padding:12px 0;
+    }
+
+    .profile-chip{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:999px;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(19,60,73,.95), rgba(11,34,42,.92));
+      box-shadow:var(--shadow);
+      cursor:pointer;
+      transition:.28s ease;
+    }
+    .profile-chip:hover{transform:translateY(-2px); border-color:rgba(25,210,124,.36)}
+    .avatar{
+      width:38px;height:38px;border-radius:50%;
+      display:grid;place-items:center;
+      background:linear-gradient(135deg, var(--green), var(--blue));
+      color:white;font-weight:800;
+      font-family:"Space Grotesk", sans-serif;
+      box-shadow:0 10px 22px rgba(31,140,255,.25);
+    }
+    .profile-meta small{display:block;color:var(--muted);font-size:.74rem}
+    .profile-meta strong{display:block;font-size:.94rem}
+
+    .brand{
+      justify-self:center;
+      text-align:center;
+    }
+    .brand h1{
+      margin:0;
+      font-family:"Space Grotesk", sans-serif;
+      font-size:clamp(1.1rem, 2vw, 1.45rem);
+      letter-spacing:-.03em;
+    }
+    .brand p{
+      margin:2px 0 0;
+      color:var(--muted);
+      font-size:.82rem;
+    }
+
+    .balance-pill{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      padding:10px 14px;
+      border-radius:999px;
+      background:linear-gradient(135deg, rgba(25,210,124,.16), rgba(31,140,255,.14));
+      border:1px solid rgba(25,210,124,.25);
+      box-shadow:var(--shadow);
+      min-width:max-content;
+    }
+    .balance-pill span{
+      color:var(--muted);
+      font-size:.76rem;
+      display:block;
+      line-height:1.1;
+    }
+    .balance-pill strong{
+      display:block;
+      font-weight:800;
+      font-size:1rem;
+    }
+
+    main{padding-bottom:80px}
+
+    .hero{
+      position:relative;
+      padding:46px 0 20px;
+    }
+
+    .hero-grid{
+      display:grid;
+      gap:18px;
+      grid-template-columns:1fr;
+    }
+
+    .hero-panel{
+      position:relative;
+      overflow:hidden;
+      border-radius:calc(var(--radius) + 6px);
+      border:1px solid var(--line);
+      background:
+        linear-gradient(145deg, rgba(12,41,49,.94), rgba(8,23,28,.96)),
+        linear-gradient(120deg, rgba(25,210,124,.08), rgba(31,140,255,.08));
+      box-shadow:var(--shadow);
+      padding:28px 22px;
+    }
+
+    .hero-panel::after{
+      content:"";
+      position:absolute;
+      inset:auto -8% -40% auto;
+      width:240px;
+      height:240px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(25,210,124,.22), transparent 62%);
+      filter:blur(10px);
+    }
+
+    .eyebrow{
+      display:inline-flex;
+      align-items:center;
+      gap:8px;
+      border:1px solid rgba(69,184,255,.25);
+      background:rgba(69,184,255,.08);
+      color:#cbf1ff;
+      padding:8px 12px;
+      border-radius:999px;
+      font-size:.8rem;
+      font-weight:700;
+      margin-bottom:16px;
+    }
+
+    .hero h2{
+      margin:0;
+      max-width:12ch;
+      font-family:"Space Grotesk", sans-serif;
+      font-size:clamp(2.2rem, 8vw, 5.2rem);
+      line-height:.95;
+      letter-spacing:-.05em;
+    }
+
+    .hero .lead{
+      margin:18px 0 0;
+      max-width:62ch;
+      color:#cce8e2;
+      font-size:clamp(1rem, 2vw, 1.1rem);
+      line-height:1.7;
+    }
+
+    .hero-actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:24px;
+    }
+
+    .btn{
+      border:none;
+      cursor:pointer;
+      border-radius:999px;
+      padding:15px 20px;
+      font-weight:800;
+      transition:.25s ease;
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      gap:10px;
+      min-height:54px;
+    }
+    .btn:active{transform:translateY(1px) scale(.99)}
+    .btn-primary{
+      color:white;
+      background:linear-gradient(135deg, var(--green), var(--blue));
+      box-shadow:0 12px 30px rgba(31,140,255,.24);
+    }
+    .btn-primary:hover{transform:translateY(-2px) scale(1.01); filter:saturate(1.1)}
+    .btn-secondary{
+      color:var(--text);
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--line);
+    }
+    .btn-secondary:hover{transform:translateY(-2px); border-color:rgba(69,184,255,.4)}
+    .btn-ghost{
+      background:transparent;
+      color:var(--muted);
+      border:1px dashed rgba(159,208,200,.25);
+    }
+
+    .hero-side{
+      display:grid;
+      gap:18px;
+    }
+
+    .stat-strip{
+      display:grid;
+      grid-template-columns:repeat(3, 1fr);
+      gap:12px;
+    }
+
+    .stat{
+      border-radius:22px;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(16,50,60,.88), rgba(9,26,31,.88));
+      padding:18px 16px;
+      min-height:120px;
+      display:flex;
+      flex-direction:column;
+      justify-content:space-between;
+    }
+
+    .stat small{color:var(--muted);font-size:.8rem}
+    .stat strong{
+      font-family:"Space Grotesk", sans-serif;
+      font-size:clamp(1.05rem, 2.5vw, 1.35rem);
+      line-height:1.1;
+    }
+
+    .telegram-box{
+      border-radius:28px;
+      border:1px solid rgba(25,210,124,.22);
+      background:
+        linear-gradient(135deg, rgba(25,210,124,.09), rgba(31,140,255,.10)),
+        rgba(10,29,36,.92);
+      padding:22px;
+      display:grid;
+      gap:14px;
+      align-content:start;
+    }
+    .telegram-box h3{
+      margin:0;
+      font-family:"Space Grotesk", sans-serif;
+      font-size:1.35rem;
+      letter-spacing:-.03em;
+    }
+    .telegram-link{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:15px 16px;
+      border-radius:18px;
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      word-break:break-all;
+      font-weight:700;
+      color:#d8fff0;
+    }
+
+    .ads-section,
+    .steps,
+    .referral-section,
+    .footer-panel{
+      padding:18px 0;
+    }
+
+    .section-head{
+      display:grid;
+      gap:8px;
+      margin-bottom:18px;
+    }
+    .section-head .tag{
+      color:#9ae0ff;
+      font-weight:800;
+      text-transform:uppercase;
+      letter-spacing:.16em;
+      font-size:.72rem;
+    }
+    .section-head h3{
+      margin:0;
+      font-family:"Space Grotesk", sans-serif;
+      font-size:clamp(1.5rem, 4vw, 2.4rem);
+      letter-spacing:-.04em;
+    }
+    .section-head p{
+      margin:0;
+      color:var(--muted);
+      max-width:62ch;
+      line-height:1.7;
+    }
+
+    .steps-layout{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:14px;
+    }
+
+    .step-row{
+      display:grid;
+      grid-template-columns:auto 1fr;
+      gap:16px;
+      align-items:start;
+      border-top:1px solid var(--line);
+      padding-top:18px;
+    }
+    .step-num{
+      width:52px;height:52px;border-radius:18px;
+      display:grid;place-items:center;
+      font-family:"Space Grotesk", sans-serif;
+      font-weight:800;
+      background:linear-gradient(135deg, rgba(25,210,124,.18), rgba(31,140,255,.18));
+      border:1px solid rgba(69,184,255,.18);
+    }
+    .step-copy h4{
+      margin:0 0 6px;
+      font-size:1.1rem;
+    }
+    .step-copy p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.7;
+    }
+
+    .ad-grid{
+      display:grid;
+      grid-template-columns:1fr;
+      gap:16px;
+    }
+
+    .ad-slot{
+      position:relative;
+      overflow:hidden;
+      min-height:170px;
+      border-radius:26px;
+      border:1px dashed rgba(69,184,255,.28);
+      background:
+        linear-gradient(135deg, rgba(31,140,255,.09), rgba(25,210,124,.08)),
+        rgba(12,35,42,.88);
+      padding:22px;
+      display:grid;
+      align-content:space-between;
+    }
+    .ad-slot::before{
+      content:"EMPLACEMENT PUB";
+      position:absolute;
+      top:14px; right:16px;
+      font-size:.7rem;
+      letter-spacing:.18em;
+      color:rgba(236,255,251,.34);
+      font-weight:800;
+    }
+    .ad-slot h4{
+      margin:0;
+      font-family:"Space Grotesk", sans-serif;
+      font-size:1.35rem;
+      max-width:13ch;
+      letter-spacing:-.03em;
+    }
+    .ad-slot p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.6;
+      max-width:40ch;
+    }
+
+    .referral-banner{
+      border-radius:30px;
+      border:1px solid rgba(25,210,124,.2);
+      padding:24px;
+      background:
+        radial-gradient(circle at 85% 20%, rgba(69,184,255,.18), transparent 28%),
+        linear-gradient(135deg, rgba(25,210,124,.08), rgba(31,140,255,.06)),
+        rgba(10,30,36,.94);
+      display:grid;
+      gap:18px;
+    }
+
+    .link-box{
+      display:grid;
+      gap:10px;
+      padding:16px;
+      border-radius:20px;
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--line);
+    }
+    .link-box label{
+      color:var(--muted);
+      font-size:.8rem;
+      font-weight:700;
+    }
+    .link-row{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    .link-input{
+      width:100%;
+      border:none;
+      outline:none;
+      border-radius:16px;
+      padding:14px 16px;
+      background:#06171c;
+      color:#dffff2;
+      border:1px solid rgba(159,208,200,.16);
+      font-family:"Manrope", sans-serif;
+      font-size:.95rem;
+    }
+
+    .footer-panel{
+      margin-top:16px;
+    }
+
+    footer{
+      border-top:1px solid var(--line);
+      padding:22px 0 40px;
+      color:var(--muted);
+    }
+    footer .footer-wrap{
+      display:flex;
+      flex-direction:column;
+      gap:10px;
+    }
+    footer a{color:#d7fff0;font-weight:700}
+
+    .page{
+      position:fixed;
+      inset:0;
+      z-index:80;
+      background:linear-gradient(180deg, rgba(4,14,18,.98), rgba(6,20,24,.98));
+      backdrop-filter:blur(12px);
+      display:none;
+      overflow-y:auto;
+    }
+    .page.active{display:block}
+    .page-shell{
+      width:min(calc(100% - 28px), 900px);
+      margin:0 auto;
+      padding:18px 0 40px;
+    }
+    .page-top{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      margin-bottom:16px;
+      position:sticky;
+      top:0;
+      padding:10px 0 14px;
+      background:linear-gradient(180deg, rgba(4,14,18,.98), rgba(4,14,18,.84), transparent);
+      z-index:5;
+    }
+    .back-btn{
+      border:none;
+      color:white;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      min-height:48px;
+      padding:0 16px;
+      border-radius:999px;
+      cursor:pointer;
+      font-weight:800;
+      transition:.25s ease;
+    }
+    .back-btn:hover{transform:translateY(-1px); border-color:rgba(69,184,255,.35)}
+    .page-card{
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(13,39,48,.96), rgba(8,24,29,.96));
+      border-radius:28px;
+      padding:24px 20px;
+      box-shadow:var(--shadow);
+      margin-bottom:16px;
+    }
+    .page-card h2,
+    .page-card h3{
+      margin:0 0 10px;
+      font-family:"Space Grotesk", sans-serif;
+      letter-spacing:-.04em;
+    }
+    .page-card p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.7;
+    }
+
+    .profile-list{
+      display:grid;
+      gap:12px;
+      margin-top:18px;
+    }
+    .nav-item{
+      width:100%;
+      text-align:left;
+      border:none;
+      cursor:pointer;
+      padding:16px 18px;
+      border-radius:20px;
+      color:var(--text);
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+      font-weight:800;
+      transition:.25s ease;
+    }
+    .nav-item:hover{transform:translateY(-2px); border-color:rgba(25,210,124,.32)}
+
+    .info-grid{
+      display:grid;
+      gap:14px;
+      grid-template-columns:1fr;
+      margin-top:18px;
+    }
+    .info-box{
+      border-radius:22px;
+      padding:18px;
+      border:1px solid var(--line);
+      background:rgba(255,255,255,.03);
+    }
+    .info-box small{
+      display:block;
+      color:var(--muted);
+      margin-bottom:6px;
+    }
+    .info-box strong{
+      display:block;
+      font-size:1.2rem;
+      font-family:"Space Grotesk", sans-serif;
+    }
+
+    .withdraw-grid{
+      display:grid;
+      gap:12px;
+      margin-top:16px;
+    }
+    .method{
+      border-radius:18px;
+      padding:16px;
+      background:rgba(255,255,255,.04);
+      border:1px solid var(--line);
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:10px;
+      flex-wrap:wrap;
+    }
+    .method strong{font-size:1rem}
+    .method span{color:var(--muted);font-size:.9rem}
+
+    .notice{
+      margin-top:16px;
+      padding:16px;
+      border-radius:18px;
+      color:#fff8d8;
+      background:rgba(255,209,102,.1);
+      border:1px solid rgba(255,209,102,.25);
+      display:none;
+    }
+    .notice.show{display:block}
+
+    .toast-wrap{
+      position:fixed;
+      right:14px;
+      bottom:14px;
+      z-index:120;
+      display:grid;
+      gap:10px;
+      width:min(360px, calc(100% - 28px));
+    }
+    .toast{
+      padding:14px 16px;
+      border-radius:18px;
+      border:1px solid var(--line);
+      background:linear-gradient(180deg, rgba(14,43,52,.96), rgba(8,25,30,.96));
+      box-shadow:var(--shadow);
+      animation:slideIn .35s ease;
+      font-size:.95rem;
+    }
+    .toast strong{display:block;margin-bottom:4px}
+    .toast.success{border-color:rgba(25,210,124,.34)}
+    .toast.info{border-color:rgba(69,184,255,.34)}
+    .toast.warn{border-color:rgba(255,209,102,.34)}
+
+    .reveal{
+      opacity:0;
+      transform:translateY(20px);
+      transition:opacity .7s ease, transform .7s ease;
+    }
+    .reveal.visible{
+      opacity:1;
+      transform:none;
+    }
+
+    .stagger-1{animation:fadeUp .7s ease .05s both}
+    .stagger-2{animation:fadeUp .7s ease .12s both}
+    .stagger-3{animation:fadeUp .7s ease .2s both}
+    .stagger-4{animation:fadeUp .7s ease .28s both}
+
+    @keyframes fadeUp{
+      from{opacity:0; transform:translateY(18px)}
+      to{opacity:1; transform:none}
+    }
+    @keyframes slideIn{
+      from{opacity:0; transform:translateY(12px) scale(.98)}
+      to{opacity:1; transform:none}
+    }
+
+    @media (min-width: 860px){
+      .hero-grid{
+        grid-template-columns:1.18fr .82fr;
+        align-items:stretch;
+      }
+      .ad-grid{
+        grid-template-columns:1fr 1fr;
+      }
+      .steps-layout{
+        grid-template-columns:1fr 1fr;
+        gap:24px;
+      }
+      .info-grid{
+        grid-template-columns:repeat(3, 1fr);
+      }
+      .link-row{
+        flex-direction:row;
+      }
+      .link-input{flex:1}
+      footer .footer-wrap{
+        flex-direction:row;
+        justify-content:space-between;
+        align-items:center;
+      }
+    }
+
+    @media (max-width: 620px){
+      .topbar-inner{
+        grid-template-columns:1fr;
+      }
+      .brand{justify-self:start; text-align:left}
+      .balance-pill{justify-self:start}
+      .stat-strip{
+        grid-template-columns:1fr;
+      }
+      .hero h2{max-width:unset}
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar" aria-label="En-tête principal">
+    <div class="container topbar-inner">
+      <button class="profile-chip" id="openProfileBtn" aria-label="Ouvrir le profil">
+        <div class="avatar" id="avatarInitial">U</div>
+        <div class="profile-meta">
+          <small>Profil</small>
+          <strong id="userIdMini">Utilisateur #----</strong>
+        </div>
+      </button>
+
+      <div class="brand">
+        <h1>GagneCash TG</h1>
+        <p>Abonne-toi sur Telegram et gagne des récompenses</p>
+      </div>
+
+      <div class="balance-pill" aria-live="polite">
+        <div>
+          <span>Solde actuel</span>
+          <strong id="headerBalance">0 XOF</strong>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container hero-grid">
+        <article class="hero-panel">
+          <div class="eyebrow stagger-1">Récompenses Telegram • Vert & Bleu</div>
+          <h2 class="stagger-2">Invite des amis à s’abonner au canal Telegram et gagne de l’argent réel.</h2>
+          <p class="lead stagger-3">
+            Clique sur <strong>Commencer</strong>, ouvre le canal Telegram
+            <strong>https://t.me/fishsgsushs</strong>, puis reçois ton bonus.
+            Partage ensuite ton lien personnel pour obtenir des récompenses de parrainage.
+          </p>
+
+          <div class="hero-actions stagger-4">
+            <button class="btn btn-primary" id="startBtn">S’abonner et gagner</button>
+            <button class="btn btn-secondary" id="startBtn2">Commencer</button>
+          </div>
+        </article>
+
+        <aside class="hero-side">
+          <div class="stat-strip reveal">
+            <div class="stat">
+              <small>Bonus abonnement</small>
+              <strong>+ 2000 XOF</strong>
+            </div>
+            <div class="stat">
+              <small>Bonus parrainage</small>
+              <strong>+ 1500 XOF</strong>
+            </div>
+            <div class="stat">
+              <small>Canal Telegram</small>
+              <strong>Direct & rapide</strong>
+            </div>
+          </div>
+
+          <div class="telegram-box reveal">
+            <h3>Canal à ouvrir</h3>
+            <a class="telegram-link" href="https://t.me/fishsgsushs" target="_blank" rel="noopener noreferrer" id="heroTelegramLink">
+              <span>https://t.me/fishsgsushs</span>
+              <span>↗</span>
+            </a>
+            <p style="margin:0;color:var(--muted);line-height:1.7;">
+              Le bonus Telegram est crédité après ouverture du lien depuis la page “Commencer”.
+            </p>
+          </div>
+        </aside>
+      </div>
+    </section>
+
+    <section class="steps">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="tag">Comment ça marche</div>
+          <h3>Un parcours simple, clair et accessible</h3>
+          <p>
+            Le site est conçu pour être facile à utiliser. Chaque page ouverte possède un bouton retour pour revenir en arrière rapidement.
+          </p>
+        </div>
+
+        <div class="steps-layout">
+          <div>
+            <div class="step-row reveal">
+              <div class="step-num">01</div>
+              <div class="step-copy">
+                <h4>Appuie sur “S’abonner et gagner”</h4>
+                <p>Une page dédiée s’ouvre avec le bouton pour ouvrir directement le canal Telegram.</p>
+              </div>
+            </div>
+            <div class="step-row reveal">
+              <div class="step-num">02</div>
+              <div class="step-copy">
+                <h4>Ouvre Telegram</h4>
+                <p>Tu es redirigé vers le canal <strong>https://t.me/fishsgsushs</strong> avant que le bonus soit crédité.</p>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <div class="step-row reveal">
+              <div class="step-num">03</div>
+              <div class="step-copy">
+                <h4>Reçois ton bonus</h4>
+                <p>Après ouverture du lien Telegram, ton compte reçoit automatiquement <strong>2000 XOF</strong>.</p>
+              </div>
+            </div>
+            <div class="step-row reveal">
+              <div class="step-num">04</div>
+              <div class="step-copy">
+                <h4>Parraine et augmente tes gains</h4>
+                <p>Chaque nouvel utilisateur qui ouvre le site avec ton lien te rapporte automatiquement <strong>1500 XOF</strong>.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="referral-section">
+      <div class="container">
+        <div class="referral-banner reveal">
+          <div class="section-head" style="margin-bottom:0;">
+            <div class="tag">Parrainage</div>
+            <h3>Ton lien personnel pour gagner plus</h3>
+            <p>
+              Le lien de parrainage contient le message demandé et reste différent pour chaque utilisateur.
+            </p>
+          </div>
+
+          <div class="link-box">
+            <label for="mainReferralLink">Lien de parrainage personnel</label>
+            <div class="link-row">
+              <input id="mainReferralLink" class="link-input" readonly value="" aria-label="Lien de parrainage personnel" />
+              <button class="btn btn-primary" id="copyReferralBtn">Copier le lien</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="ads-section">
+      <div class="container">
+        <div class="section-head reveal">
+          <div class="tag">Publicité</div>
+          <h3>Espaces prévus pour poster des pubs</h3>
+          <p>
+            Ces blocs sont prêts pour afficher des publicités afin de te permettre de gagner aussi de l’argent avec des annonces sur le site.
+          </p>
+        </div>
+
+        <div class="ad-grid">
+          <article class="ad-slot reveal" aria-label="Emplacement publicitaire 1">
+            <h4>Zone pub principale</h4>
+            <p>Ajoute ici une bannière, un texte sponsorisé, une image promotionnelle ou une offre partenaire.</p>
+          </article>
+
+          <article class="ad-slot reveal" aria-label="Emplacement publicitaire 2">
+            <h4>Zone pub secondaire</h4>
+            <p>Idéal pour afficher des campagnes, des promotions ou des partenaires rémunérés sur mobile et desktop.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="footer-panel">
+      <div class="container">
+        <footer>
+          <div class="footer-wrap">
+            <div>© <span id="year"></span> GagneCash TG</div>
+            <div>Contacte : <a href="mailto:lexalex9010@gmail.com">lexalex9010@gmail.com</a></div>
+          </div>
+        </footer>
+      </div>
+    </section>
+  </main>
+
+  <!-- PAGE COMMENCER -->
+  <section class="page" id="startPage" aria-hidden="true">
+    <div class="page-shell">
+      <div class="page-top">
+        <button class="back-btn" data-close="startPage">← Retour</button>
+      </div>
+
+      <div class="page-card">
+        <h2>Commencer et ouvrir Telegram</h2>
+        <p>
+          Appuie sur le bouton ci-dessous pour être redirigé vers le canal Telegram.
+          Le bonus de <strong>2000 XOF</strong> sera crédité après l’ouverture du lien.
+        </p>
+      </div>
+
+      <div class="page-card">
+        <h3>Lien Telegram</h3>
+        <div class="telegram-link" style="margin-top:14px;">
+          <span>https://t.me/fishsgsushs</span>
+          <span>Canal officiel</span>
+        </div>
+
+        <div class="hero-actions" style="margin-top:18px;">
+          <button class="btn btn-primary" id="openTelegramBtn">Ouvrir Telegram</button>
+          <button class="btn btn-secondary" data-close="startPage">Retour</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE PROFIL -->
+  <section class="page" id="profilePage" aria-hidden="true">
+    <div class="page-shell">
+      <div class="page-top">
+        <button class="back-btn" data-close="profilePage">← Retour</button>
+      </div>
+
+      <div class="page-card">
+        <h2>Profil utilisateur</h2>
+        <p>Consulte ici ton numéro d’utilisateur, ton solde et ton espace de parrainage.</p>
+
+        <div class="info-grid">
+          <div class="info-box">
+            <small>Numéro d’utilisateur</small>
+            <strong id="profileUserId">#----</strong>
+          </div>
+          <div class="info-box">
+            <small>Solde total</small>
+            <strong id="profileBalance">0 XOF</strong>
+          </div>
+          <div class="info-box">
+            <small>Parrainages</small>
+            <strong id="profileRefCount">0 invité(s)</strong>
+          </div>
+        </div>
+
+        <div class="profile-list">
+          <button class="nav-item" id="openBalancePage">
+            <span>Solde</span>
+            <span>→</span>
+          </button>
+          <button class="nav-item" id="openReferralPage">
+            <span>Parrainage</span>
+            <span>→</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE SOLDE -->
+  <section class="page" id="balancePage" aria-hidden="true">
+    <div class="page-shell">
+      <div class="page-top">
+        <button class="back-btn" data-close="balancePage">← Retour</button>
+      </div>
+
+      <div class="page-card">
+        <h2>Solde</h2>
+        <p>Retrouve ici tes gains de parrainage et ton accès à la page de retrait.</p>
+
+        <div class="info-grid">
+          <div class="info-box">
+            <small>Solde total</small>
+            <strong id="balanceTotalBox">0 XOF</strong>
+          </div>
+          <div class="info-box">
+            <small>Gain</small>
+            <strong id="gainOnlyBox">0 XOF</strong>
+          </div>
+          <div class="info-box">
+            <small>Bonus Telegram</small>
+            <strong id="telegramBonusBox">0 XOF</strong>
+          </div>
+        </div>
+
+        <div class="hero-actions" style="margin-top:20px;">
+          <button class="btn btn-primary" id="openWithdrawPage">Retrait</button>
+          <button class="btn btn-secondary" data-close="balancePage">Retour</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE RETRAIT -->
+  <section class="page" id="withdrawPage" aria-hidden="true">
+    <div class="page-shell">
+      <div class="page-top">
+        <button class="back-btn" data-close="withdrawPage">← Retour</button>
+      </div>
+
+      <div class="page-card">
+        <h2>Retrait</h2>
+        <p>Méthodes de retrait disponibles en Afrique de l’Ouest.</p>
+
+        <div class="withdraw-grid">
+          <div class="method">
+            <div>
+              <strong>Orange Money</strong>
+              <span>Retrait mobile money</span>
+            </div>
+            <button class="btn btn-secondary withdraw-action">Choisir</button>
+          </div>
+
+          <div class="method">
+            <div>
+              <strong>MTN Mobile Money</strong>
+              <span>Retrait mobile money</span>
+            </div>
+            <button class="btn btn-secondary withdraw-action">Choisir</button>
+          </div>
+
+          <div class="method">
+            <div>
+              <strong>Moov Money</strong>
+              <span>Retrait mobile money</span>
+            </div>
+            <button class="btn btn-secondary withdraw-action">Choisir</button>
+          </div>
+
+          <div class="method">
+            <div>
+              <strong>Wave</strong>
+              <span>Retrait portefeuille électronique</span>
+            </div>
+            <button class="btn btn-secondary withdraw-action">Choisir</button>
+          </div>
+        </div>
+
+        <div class="notice" id="withdrawNotice">
+          Parraine 20 personne pour faire votre retrait.
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PAGE PARRAINAGE -->
+  <section class="page" id="referralPage" aria-hidden="true">
+    <div class="page-shell">
+      <div class="page-top">
+        <button class="back-btn" data-close="referralPage">← Retour</button>
+      </div>
+
+      <div class="page-card">
+        <h2>Parrainage</h2>
+        <p>
+          Partage ton lien personnel. Lorsqu’un autre utilisateur utilise ton lien pour ouvrir le site,
+          tu reçois automatiquement <strong>1500 XOF</strong>.
+        </p>
+
+        <div class="link-box" style="margin-top:18px;">
+          <label for="referralLinkPage">Ton lien personnel</label>
+          <div class="link-row">
+            <input id="referralLinkPage" class="link-input" readonly value="" />
+            <button class="btn btn-primary" id="copyReferralBtnPage">Copier</button>
+          </div>
+        </div>
+
+        <div class="info-grid">
+          <div class="info-box">
+            <small>Nombre de parrainages</small>
+            <strong id="referralCountBox">0</strong>
+          </div>
+          <div class="info-box">
+            <small>Gain de parrainage</small>
+            <strong id="referralGainBox">0 XOF</strong>
+          </div>
+          <div class="info-box">
+            <small>Bonus par invité</small>
+            <strong>1500 XOF</strong>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="toast-wrap" id="toastWrap" aria-live="polite" aria-atomic="true"></div>
+
+  <script>
+    const TELEGRAM_URL = "https://t.me/fishsgsushs";
+    const BONUS_TELEGRAM = 2000;
+    const BONUS_REFERRAL = 1500;
+    const WITHDRAW_MIN_REFERRALS = 20;
+
+    const els = {
+      year: document.getElementById("year"),
+      headerBalance: document.getElementById("headerBalance"),
+      userIdMini: document.getElementById("userIdMini"),
+      avatarInitial: document.getElementById("avatarInitial"),
+      profileUserId: document.getElementById("profileUserId"),
+      profileBalance: document.getElementById("profileBalance"),
+      profileRefCount: document.getElementById("profileRefCount"),
+      balanceTotalBox: document.getElementById("balanceTotalBox"),
+      gainOnlyBox: document.getElementById("gainOnlyBox"),
+      telegramBonusBox: document.getElementById("telegramBonusBox"),
+      mainReferralLink: document.getElementById("mainReferralLink"),
+      referralLinkPage: document.getElementById("referralLinkPage"),
+      referralCountBox: document.getElementById("referralCountBox"),
+      referralGainBox: document.getElementById("referralGainBox"),
+      withdrawNotice: document.getElementById("withdrawNotice"),
+      toastWrap: document.getElementById("toastWrap"),
+      startPage: document.getElementById("startPage"),
+      profilePage: document.getElementById("profilePage"),
+      balancePage: document.getElementById("balancePage"),
+      withdrawPage: document.getElementById("withdrawPage"),
+      referralPage: document.getElementById("referralPage")
+    };
+
+    const storageKey = "gagnecash_tg_user_v1";
+
+    function createUser(){
+      const id = "U" + Math.floor(100000 + Math.random() * 900000);
+      return {
+        id,
+        balance: 0,
+        telegramBonusClaimed: false,
+        telegramBonusTotal: 0,
+        referralCount: 0,
+        referralGain: 0,
+        referralAppliedFromUrl: false
+      };
+    }
+
+    function getUser(){
+      const saved = localStorage.getItem(storageKey);
+      if(saved){
+        try { return JSON.parse(saved); } catch(e){}
+      }
+      const user = createUser();
+      saveUser(user);
+      return user;
+    }
+
+    function saveUser(user){
+      localStorage.setItem(storageKey, JSON.stringify(user));
+    }
+
+    let user = getUser();
+
+    function formatXOF(v){
+      return new Intl.NumberFormat("fr-FR").format(v) + " XOF";
+    }
+
+    function getBaseUrl(){
+      return window.location.origin + window.location.pathname;
+    }
+
+    function getReferralLink(){
+      const text = "gagne de l’argent à s’abonnât à des compte télégram";
+      return `${getBaseUrl()}?ref=${encodeURIComponent(user.id)}&msg=${encodeURIComponent(text)}`;
+    }
+
+    function updateUI(){
+      els.year.textContent = new Date().getFullYear();
+      els.headerBalance.textContent = formatXOF(user.balance);
+      els.userIdMini.textContent = "Utilisateur #" + user.id;
+      els.avatarInitial.textContent = user.id.substring(0,1);
+      els.profileUserId.textContent = "#" + user.id;
+      els.profileBalance.textContent = formatXOF(user.balance);
+      els.profileRefCount.textContent = user.referralCount + " invité(s)";
+      els.balanceTotalBox.textContent = formatXOF(user.balance);
+      els.gainOnlyBox.textContent = formatXOF(user.referralGain);
+      els.telegramBonusBox.textContent = formatXOF(user.telegramBonusTotal);
+      els.mainReferralLink.value = getReferralLink();
+      els.referralLinkPage.value = getReferralLink();
+      els.referralCountBox.textContent = user.referralCount;
+      els.referralGainBox.textContent = formatXOF(user.referralGain);
+    }
+
+    function showToast(title, message, type="info"){
+      const toast = document.createElement("div");
+      toast.className = `toast ${type}`;
+      toast.innerHTML = `<strong>${title}</strong><div>${message}</div>`;
+      els.toastWrap.appendChild(toast);
+      setTimeout(() => {
+        toast.style.opacity = "0";
+        toast.style.transform = "translateY(10px)";
+        setTimeout(() => toast.remove(), 300);
+      }, 3600);
+    }
+
+    function openPage(id){
+      document.getElementById(id).classList.add("active");
+      document.getElementById(id).setAttribute("aria-hidden", "false");
+      document.body.style.overflow = "hidden";
+    }
+
+    function closePage(id){
+      document.getElementById(id).classList.remove("active");
+      document.getElementById(id).setAttribute("aria-hidden", "true");
+      if(!document.querySelector(".page.active")){
+        document.body.style.overflow = "";
+      }
+    }
+
+    function closeAllPages(){
+      document.querySelectorAll(".page.active").forEach(page => {
+        page.classList.remove("active");
+        page.setAttribute("aria-hidden", "true");
+      });
+      document.body.style.overflow = "";
+    }
+
+    function copyText(text){
+      navigator.clipboard.writeText(text).then(() => {
+        showToast("Lien copié", "Ton lien de parrainage a été copié.", "success");
+      }).catch(() => {
+        showToast("Copie impossible", "Copie manuelle nécessaire.", "warn");
+      });
+    }
+
+    function handleReferralFromURL(){
+      const params = new URLSearchParams(window.location.search);
+      const ref = params.get("ref");
+
+      if(ref && ref !== user.id && !user.referralAppliedFromUrl){
+        user.balance += BONUS_REFERRAL;
+        user.referralGain += BONUS_REFERRAL;
+        user.referralCount += 1;
+        user.referralAppliedFromUrl = true;
+        saveUser(user);
+        updateUI();
+        showToast("Bonus de parrainage", `+${BONUS_REFERRAL} XOF ont été ajoutés à ton solde.`, "success");
+      }
+    }
+
+    function claimTelegramBonus(){
+      if(user.telegramBonusClaimed){
+        showToast("Bonus déjà reçu", "Le bonus Telegram a déjà été crédité sur ce compte.", "info");
+        return;
+      }
+      user.balance += BONUS_TELEGRAM;
+      user.telegramBonusTotal += BONUS_TELEGRAM;
+      user.telegramBonusClaimed = true;
+      saveUser(user);
+      updateUI();
+      showToast("Bonus Telegram reçu", `+${BONUS_TELEGRAM} XOF ont été crédités sur ton compte.`, "success");
+    }
+
+    document.getElementById("startBtn").addEventListener("click", () => openPage("startPage"));
+    document.getElementById("startBtn2").addEventListener("click", () => openPage("startPage"));
+    document.getElementById("openProfileBtn").addEventListener("click", () => openPage("profilePage"));
+    document.getElementById("openBalancePage").addEventListener("click", () => openPage("balancePage"));
+    document.getElementById("openReferralPage").addEventListener("click", () => openPage("referralPage"));
+    document.getElementById("openWithdrawPage").addEventListener("click", () => openPage("withdrawPage"));
+
+    document.querySelectorAll("[data-close]").forEach(btn => {
+      btn.addEventListener("click", () => closePage(btn.dataset.close));
+    });
+
+    document.getElementById("copyReferralBtn").addEventListener("click", () => copyText(getReferralLink()));
+    document.getElementById("copyReferralBtnPage").addEventListener("click", () => copyText(getReferralLink()));
+
+    document.getElementById("openTelegramBtn").addEventListener("click", () => {
+      window.open(TELEGRAM_URL, "_blank", "noopener");
+      setTimeout(() => {
+        claimTelegramBonus();
+      }, 700);
+    });
+
+    document.getElementById("heroTelegramLink").addEventListener("click", () => {
+      showToast("Ouverture du canal", "Utilise aussi la page Commencer pour obtenir ton bonus Telegram.", "info");
+    });
+
+    document.querySelectorAll(".withdraw-action").forEach(btn => {
+      btn.addEventListener("click", () => {
+        els.withdrawNotice.classList.add("show");
+        showToast("Retrait bloqué", "Parraine 20 personne pour faire votre retrait.", "warn");
+      });
+    });
+
+    document.addEventListener("keydown", (e) => {
+      if(e.key === "Escape"){
+        closeAllPages();
+      }
+    });
+
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add("visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.16 });
+
+    document.querySelectorAll(".reveal").forEach(el => observer.observe(el));
+
+    handleReferralFromURL();
+    updateUI();
+  </script>
+</body>
+</html>
